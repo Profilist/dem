@@ -55,8 +55,59 @@
           <p class="muted">Please fill out the form below to submit your data.</p>
           <form id="demo-form" autocomplete="off">
             <label>
+              <span>Full name</span>
+              <input id="fullName" name="fullName" placeholder="Jane Doe" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input id="email" name="email" type="email" placeholder="jane@example.com" required />
+            </label>
+            <label>
               <span>Birthday</span>
-              <input id="color" name="color" placeholder="e.g., 1990-01-01" />
+              <input id="birthday" name="birthday" type="date" />
+            </label>
+            <label>
+              <span>Favorite color</span>
+              <input id="color" name="color" placeholder="e.g., blue" />
+            </label>
+            <label>
+              <span>Country</span>
+              <select id="country" name="country">
+                <option value="">Select a country</option>
+                <option>Canada</option>
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>Australia</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <fieldset class="group">
+              <legend>Interests</legend>
+              <label class="inline">
+                <input type="checkbox" name="interests" value="Music" /> Music
+              </label>
+              <label class="inline">
+                <input type="checkbox" name="interests" value="Sports" /> Sports
+              </label>
+              <label class="inline">
+                <input type="checkbox" name="interests" value="Tech" /> Tech
+              </label>
+            </fieldset>
+            <fieldset class="group">
+              <legend>Contact preference</legend>
+              <label class="inline">
+                <input type="radio" name="contactPref" value="Email" checked /> Email
+              </label>
+              <label class="inline">
+                <input type="radio" name="contactPref" value="Phone" /> Phone
+              </label>
+            </fieldset>
+            <label>
+              <span>About you</span>
+              <textarea id="about" name="about" rows="3" placeholder="Tell us a bit about yourself..."></textarea>
+            </label>
+            <label class="inline">
+              <input id="terms" name="terms" type="checkbox" required /> I agree to the terms
             </label>
             <button id="submit-button" type="submit">Submit</button>
             <p id="form-message" class="info" aria-live="polite"></p>
