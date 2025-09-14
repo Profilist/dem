@@ -32,6 +32,8 @@ label { display: grid; gap: 6px; }
 label span { font-size: 12px; color: var(--muted); }
 input { background: var(--panel); color: var(--text); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px; outline: none; }
 input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(96,165,250,0.25); }
+select, textarea { background: var(--panel); color: var(--text); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px; outline: none; }
+select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(96,165,250,0.25); }
 
 button { background: var(--accent); color: #0b1020; border: none; border-radius: 8px; padding: 10px 14px; font-weight: 700; cursor: pointer; }
 button:hover { filter: brightness(1.05); }
@@ -43,6 +45,10 @@ button:hover { filter: brightness(1.05); }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .banner { padding: 10px 12px; border-radius: 8px; margin: 12px 0; }
 .warning { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #fde68a; }
+
+.group { border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 12px; }
+.group legend { font-size: 12px; color: var(--muted); padding: 0 6px; }
+.inline { display: inline-flex; align-items: center; gap: 8px; }
 
 ul.creds { margin: 8px 0 0; padding-left: 18px; }
 ul.creds code { background: #0b1226; padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); }

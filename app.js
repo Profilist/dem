@@ -114,8 +114,32 @@
         showLogin('Session expired. Please sign in again.');
         return;
       }
+      const fullName = /** @type {HTMLInputElement} */ (document.getElementById('fullName')).value.trim();
+      const email = /** @type {HTMLInputElement} */ (document.getElementById('email')).value.trim();
+      const birthday = /** @type {HTMLInputElement} */ (document.getElementById('birthday')).value;
       const color = /** @type {HTMLInputElement} */ (document.getElementById('color')).value.trim();
-      formMessage.textContent = color ? 'Submitted: ' + color : 'Submitted.';
+      const country = /** @type {HTMLSelectElement} */ (document.getElementById('country')).value;
+      const about = /** @type {HTMLTextAreaElement} */ (document.getElementById('about')).value.trim();
+      const contactPref = /** @type {HTMLInputElement|null} */ (document.querySelector('input[name="contactPref"]:checked'));
+      const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(function (el) { return /** @type {HTMLInputElement} */ (el).value; });
+      const termsAccepted = /** @type {HTMLInputElement} */ (document.getElementById('terms')).checked;
+
+      if (!termsAccepted) {
+        formMessage.textContent = 'Please accept the terms.';
+        return;
+      }
+
+      var summary = [];
+      if (fullName) summary.push('Name: ' + fullName);
+      if (email) summary.push('Email: ' + email);
+      if (birthday) summary.push('Birthday: ' + birthday);
+      if (color) summary.push('Color: ' + color);
+      if (country) summary.push('Country: ' + country);
+      if (interests.length) summary.push('Interests: ' + interests.join(', '));
+      if (contactPref) summary.push('Contact: ' + contactPref.value);
+      if (about) summary.push('About: ' + (about.length > 60 ? about.slice(0, 57) + '...' : about));
+
+      formMessage.textContent = summary.length ? 'Submitted — ' + summary.join(' • ') : 'Submitted.';
     });
 
     // Cross-tab sync: listen to broadcast events
