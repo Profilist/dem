@@ -231,8 +231,11 @@ For EACH scenario, also include a concise but rich summary (1–3 sentences) tha
 
         this.suiteIds[persona] = suiteData.id;
 
-        // Create individual test records for this suite
-        const testRecords = personaScenarios.map(scenario => ({
+        // Create individual test records for this suite (dedup by description)
+        const uniqueScenarios = Array.from(
+          new Map(personaScenarios.map(s => [s.description, s])).values()
+        );
+        const testRecords = uniqueScenarios.map(scenario => ({
           suite_id: suiteData.id, // Foreign key to suites table
           name: scenario.description,
           summary: scenario.summary,
@@ -241,9 +244,10 @@ For EACH scenario, also include a concise but rich summary (1–3 sentences) tha
           steps: []
         }));
 
+        // Use upsert to avoid duplicate-key errors on reruns (conflict on unique name)
         const { error: testsError } = await this.supabase
           .from('tests')
-          .insert(testRecords);
+          .upsert(testRecords, { onConflict: 'name' });
 
         if (testsError) {
           console.error(`❌ Failed to create tests: ${testsError.message}`);
