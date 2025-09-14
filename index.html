@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agentic QA Demo (Hardcoded)</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <noscript>
+      <div class="noscript">This demo requires JavaScript enabled.</div>
+    </noscript>
+
+    <div id="app">
+      <header class="app-header">
+        <h1>My Beautiful Website</h1>
+      </header>
+
+      <main>
+        <!-- Login View -->
+        <section id="login-view" hidden>
+          <h2>Login</h2>
+          <p class="muted">Use the test credentials below to sign in.</p>
+          <ul class="muted creds">
+            <li><strong>Username</strong>: <code>test</code></li>
+            <li><strong>Password</strong>: <code>test123</code></li>
+          </ul>
+          <form id="login-form" autocomplete="off">
+            <label>
+              <span>Username</span>
+              <input id="username" name="username" placeholder="test" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input id="password" name="password" type="password" placeholder="test123" required />
+            </label>
+            <button id="login-button" type="submit">Sign in</button>
+            <p id="login-error" class="error" role="alert" aria-live="polite"></p>
+            <p id="login-info" class="info" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <!-- Dashboard/Form View -->
+        <section id="dashboard-view" hidden>
+          <div class="topbar">
+            <p id="whoami" class="muted"></p>
+            <button id="logout-button" type="button">Log out</button>
+          </div>
+
+          <div id="session-status" class="banner warning" hidden>
+            You were logged out in another tab. Submitting will redirect to login.
+          </div>
+
+          <h2>Form</h2>
+          <p class="muted">Please fill out the form below to submit your data.</p>
+          <form id="demo-form" autocomplete="off">
+            <label>
+              <span>Birthday</span>
+              <input id="color" name="color" placeholder="e.g., 1990-01-01" />
+            </label>
+            <button id="submit-button" type="submit">Submit</button>
+            <p id="form-message" class="info" aria-live="polite"></p>
+          </form>
+        </section>
+      </main>
+
+      <footer class="app-footer muted">
+        
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+  </html>
+
+
