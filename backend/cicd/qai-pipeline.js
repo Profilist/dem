@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const { Octokit } = require('@octokit/rest');
-const OpenAI = require('openai/index.mjs');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
@@ -10,7 +9,7 @@ require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 class QAIPipeline {
   constructor() {
     this.octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-    this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    this.openai = null;
     this.supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
     this.prNumber = this.getPRNumber();
     this.repo = process.env.GITHUB_REPOSITORY?.split('/') || [];
@@ -44,6 +43,11 @@ class QAIPipeline {
     const codebaseSummary = this.loadCodebaseSummary();
     console.log(`📚 Loaded codebase summary (${codebaseSummary.length} characters)`);
     
+    if (!this.openai) {
+      const OpenAI = (await import('openai')).default;
+      this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    }
+
     console.log(`🤖 Generating test scenarios with OpenAI...`);
     const completion = await this.openai.beta.chat.completions.parse({
       model: "gpt-4o-2024-08-06",
