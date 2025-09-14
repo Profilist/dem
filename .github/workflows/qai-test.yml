@@ -18,8 +18,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: 'backend/cicd/package-lock.json'
 
 
     - name: Install Node dependencies
@@ -37,5 +35,4 @@ jobs:
         QAI_ENDPOINT: ${{ secrets.QAI_ENDPOINT }}
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        DEPLOYMENT_URL: ${{ secrets.DEPLOYMENT_URL }}
         AGENT_TIMEOUT: ${{ secrets.AGENT_TIMEOUT }}
