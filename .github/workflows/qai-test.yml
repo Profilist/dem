@@ -1,0 +1,41 @@
+name: QAI Autonomous Testing
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  qai-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'backend/cicd/package-lock.json'
+
+
+    - name: Install Node dependencies
+      run: |
+        cd backend/cicd
+        npm install
+
+    - name: Run QAI Pipeline
+      run: |
+        cd backend/cicd
+        npm run pipeline
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        QAI_ENDPOINT: ${{ secrets.QAI_ENDPOINT }}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        DEPLOYMENT_URL: ${{ secrets.DEPLOYMENT_URL }}
+        AGENT_TIMEOUT: ${{ secrets.AGENT_TIMEOUT }}
