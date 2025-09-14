@@ -1,0 +1,16 @@
+=== QAI CODEBASE SUMMARY ===
+
+This is an autonomous agentic user testing system that integrates with CI/CD pipelines.
+
+Core Components:
+- Frontend: Vercel-like dashboard for viewing test results and managing saved tests
+- Backend: Agent orchestration and test execution system
+- CI/CD: GitHub Actions integration for automatic testing on PRs
+
+Technology Stack:
+- Backend: Node.js, Python (for agents)
+- Database: Supabase for test data, S3 for video replays
+- Agents: Computer-use agents with screen recording capabilities
+- LLM: OpenAI GPT for test scenario generation
+
+The system automatically analyzes PR changes, generates test scenarios, and runs autonomous agents to test the application without requiring predefined test descriptions.

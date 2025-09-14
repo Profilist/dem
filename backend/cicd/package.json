@@ -1,0 +1,25 @@
+{
+  "name": "qai-cicd",
+  "version": "1.0.0",
+  "description": "QAI CI/CD pipeline for autonomous testing",
+  "main": "index.js",
+  "scripts": {
+    "analyze": "node qai-pipeline.js analyze",
+    "test": "node qai-pipeline.js test",
+    "update": "node qai-pipeline.js update",
+    "pipeline": "node qai-pipeline.js full"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.888.0",
+    "@octokit/rest": "^20.0.2",
+    "@supabase/supabase-js": "^2.39.0",
+    "axios": "^1.6.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "openai": "^4.28.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
