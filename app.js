@@ -3,7 +3,9 @@
 (function () {
   // Hardcoded credentials
   const VALID_CREDENTIALS = { username: 'test', password: 'test123' };
-  const SESSION_KEY = 'qa_demo_session_v1';
+  const BROADCAST_KEY = 'qa_demo_broadcast_v1';
+  // In-memory session (does not survive reload)
+  let inMemorySession = { loggedIn: false, user: null };
 
   // Elements
   const loginView = document.getElementById('login-view');
@@ -22,35 +24,33 @@
   const formMessage = document.getElementById('form-message');
   const sessionStatus = document.getElementById('session-status');
 
-  // Session helpers
+  // Session helpers (memory only)
   function getSession() {
+    return inMemorySession;
+  }
+
+  function broadcast(type, data) {
     try {
-      const raw = localStorage.getItem(SESSION_KEY);
-      return raw ? JSON.parse(raw) : null;
+      const payload = JSON.stringify({ type: type, data: data || null, ts: Date.now() });
+      // Write a unique value to trigger storage event in other tabs
+      localStorage.setItem(BROADCAST_KEY, payload);
     } catch (e) {
-      return null;
+      // ignore
     }
   }
 
   function setSession(session) {
-    try {
-      localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    } catch (e) {
-      // ignore
-    }
+    inMemorySession = session || { loggedIn: false, user: null };
+    broadcast('login', { user: inMemorySession.user });
   }
 
   function clearSession() {
-    try {
-      localStorage.removeItem(SESSION_KEY);
-    } catch (e) {
-      // ignore
-    }
+    inMemorySession = { loggedIn: false, user: null };
+    broadcast('logout');
   }
 
   function isAuthenticated() {
-    const s = getSession();
-    return Boolean(s && s.loggedIn === true);
+    return Boolean(inMemorySession && inMemorySession.loggedIn === true);
   }
 
   // Views
@@ -118,18 +118,22 @@
       formMessage.textContent = color ? 'Submitted: ' + color : 'Submitted.';
     });
 
-    // Cross-tab sync: listen to storage events
+    // Cross-tab sync: listen to broadcast events
     window.addEventListener('storage', function (event) {
-      if (event.key !== SESSION_KEY) return;
-      // If session removed or changed to loggedOut, surface a banner but do not auto-redirect
-      const authed = isAuthenticated();
-      if (!authed) {
-        // Only show the banner if user is on dashboard
-        if (!dashboardView.hidden) {
-          sessionStatus.hidden = false;
+      if (event.key !== BROADCAST_KEY) return;
+      try {
+        const payload = event.newValue ? JSON.parse(event.newValue) : null;
+        if (!payload) return;
+        if (payload.type === 'logout') {
+          // Force local memory session to logged out
+          inMemorySession = { loggedIn: false, user: null };
+          // Show banner if on dashboard
+          if (!dashboardView.hidden) {
+            sessionStatus.hidden = false;
+          }
         }
-      } else {
-        sessionStatus.hidden = true;
+      } catch (e) {
+        // ignore
       }
     });
   });
